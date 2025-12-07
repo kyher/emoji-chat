@@ -15,7 +15,7 @@ Route::get('/', function () {
 Route::get('dashboard', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('workspace')->group(function () {
-    Route::post('workspaces', [WorkspaceController::class, 'store'])->name('store')->middleware(['auth', 'verified']);
+    Route::post('/store', [WorkspaceController::class, 'store'])->name('workspace.store')->middleware(['auth', 'verified']);
 });
 
 require __DIR__ . '/settings.php';
