@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Enum\WorkspaceUserRole;
+use App\Http\Requests\StoreWorkspaceRequest;
+use App\Models\Workspace;
+use Exception;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
+class WorkspaceController extends Controller
+{
+    public function store(StoreWorkspaceRequest $request): RedirectResponse
+    {
+        try {
+            DB::transaction(function () use ($request) {
+                $workspace = Workspace::create([
+                    'name' => $request->name,
+                    'owner_id' => Auth::id(),
+                ]);
+
+                $workspace->users()->attach(Auth::id(), [
+                    'role' => WorkspaceUserRole::Administrator,
+                ]);
+            });
+        } catch (Exception $e) {
+            Log::error($e);
+            return redirect(route('dashboard'))->withErrors('Could not create workspace');
+        }
+
+        return redirect(route('dashboard'));
+    }
+}

@@ -37,3 +37,8 @@ export interface User {
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
+
+export interface Workspace {
+    id: number;
+    name: string;
+}
