@@ -31,8 +31,6 @@ class WorkspaceController extends Controller
             return redirect(route('dashboard'))->withErrors('Could not create workspace');
         }
 
-
-
-        return redirect(route('dashboard'))->with('success', 'Workspace created');
+        return redirect(route('dashboard'));
     }
 }
