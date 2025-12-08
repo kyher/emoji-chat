@@ -36,6 +36,10 @@ class WorkspaceController extends Controller
 
     public function destroy(Workspace $workspace): RedirectResponse
     {
+        if (Auth::id() !== $workspace->owner_id) {
+            return redirect(route('dashboard'))->withErrors('Could not delete workspace');
+        }
+
         try {
             DB::transaction(function () use ($workspace) {
                 $workspace->users()->detach();
