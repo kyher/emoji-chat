@@ -3,5 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class WorkspaceUser extends Pivot {}
+class WorkspaceUser extends Pivot
+{
+    use SoftDeletes;
+}
