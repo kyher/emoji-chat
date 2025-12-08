@@ -33,4 +33,19 @@ class WorkspaceController extends Controller
 
         return redirect(route('dashboard'));
     }
+
+    public function destroy(Workspace $workspace): RedirectResponse
+    {
+        try {
+            DB::transaction(function () use ($workspace) {
+                $workspace->users()->detach();
+                $workspace->delete();
+            });
+        } catch (Exception $e) {
+            Log::error($e);
+            return redirect(route('dashboard'))->withErrors('Could not delete workspace');
+        }
+
+        return redirect(route('dashboard'));
+    }
 }
