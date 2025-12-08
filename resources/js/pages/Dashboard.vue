@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { store } from '@/actions/App/Http/Controllers/WorkspaceController';
+import {
+    destroy,
+    store,
+} from '@/actions/App/Http/Controllers/WorkspaceController';
 import Button from '@/components/ui/button/Button.vue';
 import Card from '@/components/ui/card/Card.vue';
 import Input from '@/components/ui/input/Input.vue';
@@ -53,6 +56,18 @@ defineProps<{
                     class="no-wrap overflow-hidden p-4 text-nowrap text-ellipsis"
                 >
                     {{ workspace.name }}
+                    <Form
+                        :action="destroy(workspace.id)"
+                        method="DELETE"
+                        class="mt-2"
+                    >
+                        <button
+                            type="submit"
+                            class="cursor-pointer rounded bg-red-500 px-2 py-1 text-white"
+                        >
+                            Delete
+                        </button>
+                    </Form>
                 </Card>
             </div>
         </div>
