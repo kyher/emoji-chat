@@ -58,7 +58,7 @@ defineProps<{
                     {{ workspace.name }}
                     <Form
                         :action="destroy(workspace.id)"
-                        method="POST"
+                        method="DELETE"
                         class="mt-2"
                     >
                         <button
