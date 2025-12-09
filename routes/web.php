@@ -17,6 +17,7 @@ Route::get('dashboard', DashboardController::class)->middleware(['auth', 'verifi
 Route::prefix('workspace')->group(function () {
     Route::post('/store', [WorkspaceController::class, 'store'])->name('workspace.store');
     Route::delete('/{workspace}/destroy', [WorkspaceController::class, 'destroy'])->name('workspace.destroy');
+    Route::get('/{workspace}/view', [WorkspaceController::class, 'view'])->name('workspace.view');
 })->middleware(['auth', 'verified']);
 
 require __DIR__ . '/settings.php';

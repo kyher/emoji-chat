@@ -10,6 +10,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
+use Inertia\Response as InertiaResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class WorkspaceController extends Controller
 {
@@ -34,7 +37,7 @@ class WorkspaceController extends Controller
         return redirect(route('dashboard'));
     }
 
-    public function destroy(Workspace $workspace): RedirectResponse
+    public function destroy(Workspace $workspace): Response
     {
         if (Auth::id() !== $workspace->owner_id) {
             return redirect(route('dashboard'))->withErrors('Could not delete workspace');
@@ -51,5 +54,16 @@ class WorkspaceController extends Controller
         }
 
         return redirect(route('dashboard'));
+    }
+
+    public function view(Workspace $workspace): InertiaResponse|RedirectResponse
+    {
+        if (!$workspace->users->contains(Auth::id())) {
+            return redirect(route('dashboard'))->withErrors('Could not access workspace');
+        }
+
+        return Inertia::render('workspace/View', [
+            'workspace' => $workspace,
+        ]);
     }
 }

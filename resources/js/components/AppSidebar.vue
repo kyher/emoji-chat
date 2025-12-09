@@ -11,8 +11,14 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import { Link } from '@inertiajs/vue3';
+import { view } from '@/routes/workspace';
+import { AppPageProps } from '@/types';
+import { Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import AppLogo from './AppLogo.vue';
+const page = usePage<AppPageProps>();
+
+const workspaces = computed(() => page.props.workspaces);
 </script>
 
 <template>
@@ -30,8 +36,16 @@ import AppLogo from './AppLogo.vue';
         </SidebarHeader>
 
         <SidebarContent>
-            <!-- Replace with workspaces -->
-            <NavMain :workspaces="[]" />
+            <NavMain
+                :workspaces="
+                    workspaces.map((workspace) => {
+                        return {
+                            title: workspace.name,
+                            href: view(workspace.id).url,
+                        };
+                    })
+                "
+            />
         </SidebarContent>
 
         <SidebarFooter>
