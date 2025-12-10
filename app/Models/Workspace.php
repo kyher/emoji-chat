@@ -20,4 +20,9 @@ class Workspace extends Model
             ->withPivot('role')
             ->withTimestamps();
     }
+
+    public function channels()
+    {
+        return $this->hasMany(Channel::class);
+    }
 }
