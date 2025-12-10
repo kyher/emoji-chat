@@ -62,8 +62,8 @@ class WorkspaceController extends Controller
             return redirect(route('dashboard'))->withErrors('Could not access workspace');
         }
 
-        return Inertia::render('workspace/View', [
-            'workspace' => $workspace,
+        return Inertia::render('workspace/ViewWorkspace', [
+            'workspace' => $workspace->load('channels'),
         ]);
     }
 }

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Channel extends Model
 {
+    protected $fillable = ['name', 'workspace_id', 'owner_id'];
+
     public function workspace()
     {
         return $this->belongsTo(Workspace::class);

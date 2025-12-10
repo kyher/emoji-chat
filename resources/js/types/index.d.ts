@@ -39,7 +39,13 @@ export interface User {
 
 export type BreadcrumbItemType = BreadcrumbItem;
 
+export type Channel = {
+    id: number;
+    name: string;
+};
+
 export interface Workspace {
     id: number;
     name: string;
+    channels?: Channel[];
 }
