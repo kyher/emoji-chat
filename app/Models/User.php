@@ -58,4 +58,9 @@ class User extends Authenticatable
             ->withPivot('role')
             ->withTimestamps();
     }
+
+    public function channels()
+    {
+        return $this->belongsToMany(Channel::class)->withTimestamps();
+    }
 }

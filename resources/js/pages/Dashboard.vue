@@ -8,8 +8,9 @@ import Card from '@/components/ui/card/Card.vue';
 import Input from '@/components/ui/input/Input.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard } from '@/routes';
+import { view } from '@/routes/workspace';
 import { Workspace, type BreadcrumbItem } from '@/types';
-import { Form, Head } from '@inertiajs/vue3';
+import { Form, Head, Link } from '@inertiajs/vue3';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -56,18 +57,26 @@ defineProps<{
                     class="no-wrap overflow-hidden p-4 text-nowrap text-ellipsis"
                 >
                     {{ workspace.name }}
-                    <Form
-                        :action="destroy(workspace.id)"
-                        method="DELETE"
-                        class="mt-2"
-                    >
-                        <button
-                            type="submit"
-                            class="cursor-pointer rounded bg-red-500 px-2 py-1 text-white"
+                    <div class="flex gap-2">
+                        <Link
+                            :href="view(workspace.id)"
+                            class="mt-2 w-25 w-fit cursor-pointer rounded bg-blue-500 p-2 text-white"
                         >
-                            Delete
-                        </button>
-                    </Form>
+                            View
+                        </Link>
+                        <Form
+                            :action="destroy(workspace.id)"
+                            method="DELETE"
+                            class="mt-2"
+                        >
+                            <button
+                                type="submit"
+                                class="cursor-pointer rounded bg-red-500 p-2 text-white"
+                            >
+                                Delete
+                            </button>
+                        </Form>
+                    </div>
                 </Card>
             </div>
         </div>
