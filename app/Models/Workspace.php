@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\WorkspaceUserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -18,6 +19,15 @@ class Workspace extends Model
         return $this->belongsToMany(User::class, 'workspace_users')
             ->using(WorkspaceUser::class)
             ->withPivot('role')
+            ->withTimestamps();
+    }
+
+    public function administrators(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'workspace_users')
+            ->using(WorkspaceUser::class)
+            ->withPivot('role')
+            ->wherePivot('role', WorkspaceUserRole::Administrator)
             ->withTimestamps();
     }
 
