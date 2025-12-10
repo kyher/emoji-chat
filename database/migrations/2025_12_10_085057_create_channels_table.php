@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('channels', function (Blueprint $table) {
             $table->id();
             $table->foreignId('workspace_id')->constrained()->onDelete('cascade');
+            $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
             $table->string('name');
+            $table->unique(['workspace_id', 'name']);
             $table->timestamps();
         });
     }
