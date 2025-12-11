@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Settings;
+namespace Tests\Feature\Workspaces;
 
 use App\Enum\WorkspaceUserRole;
 use App\Models\User;
