@@ -4,7 +4,7 @@ import Card from '@/components/ui/card/Card.vue';
 import Input from '@/components/ui/input/Input.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard } from '@/routes';
-import { store } from '@/routes/channel';
+import { destroy, store } from '@/routes/channel';
 import { Workspace, type BreadcrumbItem } from '@/types';
 import { Form, Head } from '@inertiajs/vue3';
 const { workspace } = defineProps<{
@@ -54,6 +54,18 @@ const breadcrumbs: BreadcrumbItem[] = [
                     class="no-wrap overflow-hidden p-4 text-nowrap text-ellipsis"
                 >
                     {{ channel.name }}
+                    <Form
+                        :action="destroy(channel.id)"
+                        method="DELETE"
+                        class="mt-2"
+                    >
+                        <button
+                            type="submit"
+                            class="cursor-pointer rounded bg-red-500 p-2 text-white"
+                        >
+                            Delete
+                        </button>
+                    </Form>
                 </Card>
             </div>
         </div>
