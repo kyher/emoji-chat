@@ -4,9 +4,9 @@ import Card from '@/components/ui/card/Card.vue';
 import Input from '@/components/ui/input/Input.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard } from '@/routes';
-import { destroy, store } from '@/routes/channel';
+import { destroy, store, view } from '@/routes/channel';
 import { Workspace, type BreadcrumbItem } from '@/types';
-import { Form, Head } from '@inertiajs/vue3';
+import { Form, Head, Link } from '@inertiajs/vue3';
 const { workspace } = defineProps<{
     workspace: Workspace;
     errors: {
@@ -54,6 +54,12 @@ const breadcrumbs: BreadcrumbItem[] = [
                     class="no-wrap overflow-hidden p-4 text-nowrap text-ellipsis"
                 >
                     {{ channel.name }}
+                    <Link
+                        :href="view(channel.id)"
+                        class="mt-2 w-25 w-fit cursor-pointer rounded bg-blue-500 p-2 text-white"
+                    >
+                        View
+                    </Link>
                     <Form
                         :action="destroy(channel.id)"
                         method="DELETE"

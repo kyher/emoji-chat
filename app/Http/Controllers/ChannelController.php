@@ -50,4 +50,16 @@ class ChannelController extends Controller
 
         return redirect()->back();
     }
+
+    public function view(Channel $channel)
+    {
+        if (!$channel->users->contains(Auth::id())) {
+            return redirect()->back()->withErrors('You do not have permission to view this channel');
+        }
+
+        return inertia('channel/ViewChannel', [
+            'channel' => $channel,
+            'workspace' => $channel->workspace,
+        ]);
+    }
 }
