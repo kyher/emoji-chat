@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RemoveChannelRequest;
 use App\Http\Requests\StoreChannelRequest;
 use App\Models\Channel;
 use Exception;
@@ -27,6 +28,24 @@ class ChannelController extends Controller
         } catch (Exception $e) {
             Log::error($e);
             return redirect()->back()->withErrors('Could not create channel');
+        }
+
+        return redirect()->back();
+    }
+
+    public function destroy(Channel $channel): RedirectResponse
+    {
+        if (Auth::id() !== $channel->owner_id) {
+            return redirect()->back()->withErrors('You do not have permission to delete this channel');
+        }
+        try {
+            DB::transaction(function () use ($channel) {
+                $channel->users()->detach();
+                $channel->delete();
+            });
+        } catch (Exception $e) {
+            Log::error($e);
+            return redirect()->back()->withErrors('Could not delete channel');
         }
 
         return redirect()->back();

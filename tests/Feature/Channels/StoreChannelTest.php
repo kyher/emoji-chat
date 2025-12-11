@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Settings;
+namespace Tests\Feature\Channels;
 
 use App\Models\User;
 use App\Models\Workspace;
