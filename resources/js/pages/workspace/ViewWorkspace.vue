@@ -54,24 +54,26 @@ const breadcrumbs: BreadcrumbItem[] = [
                     class="no-wrap overflow-hidden p-4 text-nowrap text-ellipsis"
                 >
                     {{ channel.name }}
-                    <Link
-                        :href="view(channel.id)"
-                        class="mt-2 w-25 w-fit cursor-pointer rounded bg-blue-500 p-2 text-white"
-                    >
-                        View
-                    </Link>
-                    <Form
-                        :action="destroy(channel.id)"
-                        method="DELETE"
-                        class="mt-2"
-                    >
-                        <button
-                            type="submit"
-                            class="cursor-pointer rounded bg-red-500 p-2 text-white"
+                    <div class="flex gap-2">
+                        <Link
+                            :href="view(channel.id)"
+                            class="mt-2 w-25 w-fit cursor-pointer rounded bg-blue-500 p-2 text-white"
                         >
-                            Delete
-                        </button>
-                    </Form>
+                            View
+                        </Link>
+                        <Form
+                            :action="destroy(channel.id)"
+                            method="DELETE"
+                            class="mt-2"
+                        >
+                            <button
+                                type="submit"
+                                class="cursor-pointer rounded bg-red-500 p-2 text-white"
+                            >
+                                Delete
+                            </button>
+                        </Form>
+                    </div>
                 </Card>
             </div>
         </div>
