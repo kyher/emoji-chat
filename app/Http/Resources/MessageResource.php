@@ -5,9 +5,8 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ChannelResource extends JsonResource
+class MessageResource extends JsonResource
 {
-    public static $wrap = null;
     /**
      * Transform the resource into an array.
      *
@@ -17,8 +16,9 @@ class ChannelResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'messages' => MessageResource::collection($this->whenLoaded('messages')),
+            'content' => $this->content,
+            'user' => $this->user->name,
+            'created_at' => $this->created_at->toDateTimeString(),
         ];
     }
 }
