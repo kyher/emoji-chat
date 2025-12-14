@@ -35,8 +35,7 @@ const form = useForm({
     channel_id: channel.id,
 });
 
-// to do - type emoiji
-function onSelectEmoji(emoji: any) {
+function onSelectEmoji(emoji: { i: string }) {
     form.content = emoji.i;
     form.post(store().url, {
         onSuccess: () => {
