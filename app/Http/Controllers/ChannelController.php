@@ -58,7 +58,7 @@ class ChannelController extends Controller
         }
 
         return inertia('channel/ViewChannel', [
-            'channel' => $channel,
+            'channel' => $channel->load('messages')->toResource(),
             'workspace' => $channel->workspace,
         ]);
     }

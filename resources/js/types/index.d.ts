@@ -39,9 +39,17 @@ export interface User {
 
 export type BreadcrumbItemType = BreadcrumbItem;
 
+export type Message = {
+    id: number;
+    content: string;
+    user: string;
+    created_at: string;
+};
+
 export type Channel = {
     id: number;
     name: string;
+    messages?: Message[];
 };
 
 export interface Workspace {

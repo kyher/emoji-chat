@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\WorkspaceController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,6 +25,10 @@ Route::prefix('workspace')->group(function () {
         Route::post('/store', [ChannelController::class, 'store'])->name('channel.store');
         Route::delete('/{channel}/destroy', [ChannelController::class, 'destroy'])->name('channel.destroy');
         Route::get('/{channel}/view', [ChannelController::class, 'view'])->name('channel.view');
+
+        Route::prefix('message')->group(function () {
+            Route::post('/store', [MessageController::class, 'store'])->name('message.store');
+        });
     });
 })->middleware(['auth', 'verified']);
 
