@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard } from '@/routes';
+import { store } from '@/routes/message';
 import { view } from '@/routes/workspace';
 import { Channel, Workspace, type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import EmojiPicker from 'vue3-emoji-picker';
 import 'vue3-emoji-picker/css';
@@ -28,10 +29,21 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const showEmojiPicker = ref(false);
-const selectedEmoji = ref('');
 
+const form = useForm({
+    content: '',
+    channel_id: channel.id,
+});
+
+// to do - type emoiji
 function onSelectEmoji(emoji: any) {
-    selectedEmoji.value = emoji.i;
+    form.content = emoji.i;
+    form.post(store().url, {
+        onSuccess: () => {
+            form.reset('content');
+        },
+    });
+    toggleEmojiPicker();
 }
 
 function toggleEmojiPicker() {
@@ -59,9 +71,17 @@ function toggleEmojiPicker() {
                         theme="dark"
                         class="absolute"
                     />
+                    <form>
+                        <input v.model="form.content" readonly hidden />
+                    </form>
                 </div>
             </div>
-            <div class="h-8/10 rounded bg-gray-800 p-4">messages</div>
+            <div class="h-8/10 rounded bg-gray-800 p-4">
+                <p v-for="message in channel.messages">
+                    {{ message.content }} - {{ message.user }} at
+                    {{ message.created_at }}
+                </p>
+            </div>
         </div>
     </AppLayout>
 </template>
