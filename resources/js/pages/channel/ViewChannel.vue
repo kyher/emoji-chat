@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Message from '@/components/Message.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard } from '@/routes';
 import { store } from '@/routes/message';
@@ -60,7 +61,10 @@ function toggleEmojiPicker() {
             <h1 class="text-2xl">{{ channel.name }}</h1>
             <div class="flex h-1/10 items-center gap-4 rounded bg-gray-800 p-4">
                 <div>
-                    <button @click="toggleEmojiPicker">
+                    <button
+                        @click="toggleEmojiPicker"
+                        class="cursor-pointer text-2xl"
+                    >
                         {{ showEmojiPicker ? '⬇️' : '😀' }}
                     </button>
                     <EmojiPicker
@@ -76,10 +80,11 @@ function toggleEmojiPicker() {
                 </div>
             </div>
             <div class="h-8/10 rounded bg-gray-800 p-4">
-                <p v-for="message in channel.messages">
-                    {{ message.content }} - {{ message.user }} at
-                    {{ message.created_at }}
-                </p>
+                <Message
+                    v-for="message in channel.messages"
+                    :key="message.id"
+                    :message="message"
+                />
             </div>
         </div>
     </AppLayout>
