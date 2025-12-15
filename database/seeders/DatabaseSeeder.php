@@ -3,7 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Factories\ChannelFactory;
+use Database\Factories\WorkspaceFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,10 +14,31 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->withoutTwoFactor()->create([
+        $testUser = User::factory()->withoutTwoFactor()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password'
         ]);
+
+        $otherUser = User::factory()->withoutTwoFactor()->create([
+            'name' => 'Demo User',
+            'email' => 'demo@example.com',
+            'password' => 'password'
+        ]);
+
+        $workspace = WorkspaceFactory::new()->ownedBy($testUser)->create([
+            'name' => 'Test User Workspace',
+        ]);
+
+        $workspace->users()->attach($otherUser->id, [
+            'role' => \App\Enum\WorkspaceUserRole::Member,
+        ]);
+
+        $channel = ChannelFactory::new()->ownedBy($testUser)->create([
+            'workspace_id' => $workspace->id,
+            'name' => 'general',
+        ]);
+
+        $channel->users()->attach($otherUser->id);
     }
 }
