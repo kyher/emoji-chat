@@ -37,7 +37,7 @@ const form = useForm({
     channel_id: channel.id,
 });
 
-useEcho(`channels.${channel.id}`, 'MessageSent', (e) => {
+useEcho(`channels.${channel.id}`, 'MessageSent', () => {
     router.visit('', {
         preserveState: true,
         preserveScroll: true,
