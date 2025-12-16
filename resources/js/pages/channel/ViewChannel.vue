@@ -5,7 +5,8 @@ import { dashboard } from '@/routes';
 import { store } from '@/routes/message';
 import { view } from '@/routes/workspace';
 import { Channel, Workspace, type BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, router, useForm } from '@inertiajs/vue3';
+import { useEcho } from '@laravel/echo-vue';
 import { ref } from 'vue';
 import EmojiPicker from 'vue3-emoji-picker';
 import 'vue3-emoji-picker/css';
@@ -36,6 +37,13 @@ const form = useForm({
     channel_id: channel.id,
 });
 
+useEcho(`channels.${channel.id}`, 'MessageSent', () => {
+    router.visit('', {
+        preserveState: true,
+        preserveScroll: true,
+    });
+});
+
 function onSelectEmoji(emoji: { i: string }) {
     form.content = emoji.i;
     form.post(store().url, {
@@ -56,7 +64,7 @@ function toggleEmojiPicker() {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div
-            class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
+            class="flex max-h-screen flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
         >
             <h1 class="text-2xl">{{ channel.name }}</h1>
             <div class="flex h-1/10 items-center gap-4 rounded bg-gray-800 p-4">
@@ -79,7 +87,9 @@ function toggleEmojiPicker() {
                     </form>
                 </div>
             </div>
-            <div class="h-8/10 rounded bg-gray-800 p-4">
+            <div
+                class="flex h-7/10 flex-col-reverse overflow-auto rounded bg-gray-800 p-4"
+            >
                 <Message
                     v-for="message in channel.messages"
                     :key="message.id"

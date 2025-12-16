@@ -18,7 +18,7 @@ class MessageResource extends JsonResource
             'id' => $this->id,
             'content' => $this->content,
             'user' => $this->user->name,
-            'created_at' => $this->created_at->ago(),
+            'created_at' => $this->created_at->toDateTimeString(),
         ];
     }
 }
