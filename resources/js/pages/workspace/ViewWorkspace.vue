@@ -76,6 +76,12 @@ const breadcrumbs: BreadcrumbItem[] = [
                     </div>
                 </Card>
             </div>
+            <h2 class="text-xl">Users</h2>
+            <ul>
+                <li v-for="value in workspace.users" :key="value.id">
+                    {{ value.name }} - {{ value.email }}
+                </li>
+            </ul>
         </div>
     </AppLayout>
 </template>

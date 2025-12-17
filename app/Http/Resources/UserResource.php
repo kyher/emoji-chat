@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class WorkspaceResource extends JsonResource
+class UserResource extends JsonResource
 {
     public static $wrap = null;
     /**
@@ -18,8 +18,7 @@ class WorkspaceResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'channels' => ChannelResource::collection($this->whenLoaded('channels')),
-            'users' => UserResource::collection($this->whenLoaded('users')),
+            'email' => $this->email,
         ];
     }
 }
