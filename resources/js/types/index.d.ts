@@ -52,8 +52,15 @@ export type Channel = {
     messages?: Message[];
 };
 
+type WorkspaceUser = {
+    id: number;
+    name: string;
+    email: string;
+};
+
 export interface Workspace {
     id: number;
     name: string;
     channels?: Channel[];
+    users?: WorkspaceUser[];
 }

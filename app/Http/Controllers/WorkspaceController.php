@@ -63,7 +63,7 @@ class WorkspaceController extends Controller
         }
 
         return Inertia::render('workspace/ViewWorkspace', [
-            'workspace' => $workspace->load('channels'),
+            'workspace' => $workspace->load(['channels', 'users']),
         ]);
     }
 }
