@@ -61,6 +61,7 @@ type WorkspaceUser = {
 export interface Workspace {
     id: number;
     name: string;
+    owner_id: number;
     channels?: Channel[];
     users?: WorkspaceUser[];
 }

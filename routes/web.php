@@ -4,6 +4,7 @@ use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\WorkspaceController;
+use App\Http\Controllers\WorkspaceUserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -17,10 +18,6 @@ Route::get('/', function () {
 Route::get('dashboard', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('workspace')->group(function () {
-    Route::post('/store', [WorkspaceController::class, 'store'])->name('workspace.store');
-    Route::delete('/{workspace}/destroy', [WorkspaceController::class, 'destroy'])->name('workspace.destroy');
-    Route::get('/{workspace}/view', [WorkspaceController::class, 'view'])->name('workspace.view');
-
     Route::prefix('channel')->group(function () {
         Route::post('/store', [ChannelController::class, 'store'])->name('channel.store');
         Route::delete('/{channel}/destroy', [ChannelController::class, 'destroy'])->name('channel.destroy');
@@ -30,6 +27,10 @@ Route::prefix('workspace')->group(function () {
             Route::post('/store', [MessageController::class, 'store'])->name('message.store');
         });
     });
+    Route::post('/store', [WorkspaceController::class, 'store'])->name('workspace.store');
+    Route::delete('/{workspace}/destroy', [WorkspaceController::class, 'destroy'])->name('workspace.destroy');
+    Route::get('/{workspace}/view', [WorkspaceController::class, 'view'])->name('workspace.view');
+    Route::delete('/{workspace}/{user}/destroy', [WorkspaceUserController::class, 'destroy'])->name('workspace.user.destroy');
 })->middleware(['auth', 'verified']);
 
 

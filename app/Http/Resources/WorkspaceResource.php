@@ -18,6 +18,7 @@ class WorkspaceResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'owner_id' => $this->owner_id,
             'channels' => ChannelResource::collection($this->whenLoaded('channels')),
             'users' => UserResource::collection($this->whenLoaded('users')),
         ];
