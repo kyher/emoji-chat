@@ -55,9 +55,9 @@ class RemoveWorkspaceUserTest extends TestCase
 
     public function test_workspace_owner_cannot_be_removed()
     {
-        $workspace = WorkspaceFactory::new()->create();
+        $workspaceOwner = User::factory()->create();
+        $workspace = WorkspaceFactory::new()->ownedBy($workspaceOwner)->create();
 
-        $workspaceOwner = $workspace->owner;
         $workspaceMember = User::factory()->create();
         $workspace->users()->attach($workspaceMember->id, ['role' => WorkspaceUserRole::Member]);
 
