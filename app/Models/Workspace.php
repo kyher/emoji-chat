@@ -18,7 +18,8 @@ class Workspace extends Model
     {
         return $this->belongsToMany(User::class, 'workspace_users')
             ->using(WorkspaceUser::class)
-            ->withPivot('role')
+            ->withPivot(['role', 'deleted_at'])
+            ->wherePivotNull('deleted_at')
             ->withTimestamps();
     }
 
