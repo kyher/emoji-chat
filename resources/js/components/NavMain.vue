@@ -13,6 +13,7 @@ import { Link, usePage } from '@inertiajs/vue3';
 
 defineProps<{
     workspaces: NavItem[];
+    channels: NavItem[];
 }>();
 
 const page = usePage();
@@ -49,6 +50,26 @@ const page = usePage();
                     <Link :href="workspace.href">
                         <component :is="workspace.icon" />
                         <span>{{ workspace.title }}</span>
+                    </Link>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+        </SidebarMenu>
+    </SidebarGroup>
+    <SidebarGroup class="px-2 py-0">
+        <SidebarGroupLabel>Channels</SidebarGroupLabel>
+        <SidebarMenu>
+            <SidebarMenuItem v-for="channel in channels" :key="channel.title">
+                <SidebarMenuButton
+                    as-child
+                    :is-active="urlIsActive(channel.href, page.url)"
+                    :tooltip="channel.title"
+                >
+                    <Link :href="channel.href">
+                        <component :is="channel.icon" />
+                        <span>{{ channel.title }}</span>
+                        <span class="text-gray-400/50">{{
+                            channel.parentName
+                        }}</span>
                     </Link>
                 </SidebarMenuButton>
             </SidebarMenuItem>

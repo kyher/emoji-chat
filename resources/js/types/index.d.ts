@@ -15,6 +15,7 @@ export interface NavItem {
     href: NonNullable<InertiaLinkProps['href']>;
     icon?: LucideIcon;
     isActive?: boolean;
+    parentName?: string;
 }
 
 export type AppPageProps<
@@ -25,6 +26,7 @@ export type AppPageProps<
     auth: Auth;
     sidebarOpen: boolean;
     workspaces: Workspace[];
+    channels: Channel[];
 };
 
 export interface User {
@@ -50,6 +52,7 @@ export type Channel = {
     id: number;
     name: string;
     messages?: Message[];
+    workspace: string;
 };
 
 type WorkspaceUser = {
