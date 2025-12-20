@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ChannelController from '@/actions/App/Http/Controllers/ChannelController';
+import WorkspaceController from '@/actions/App/Http/Controllers/WorkspaceController';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import {
@@ -11,7 +13,6 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import { view } from '@/routes/workspace';
 import { AppPageProps } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
@@ -19,6 +20,7 @@ import AppLogo from './AppLogo.vue';
 const page = usePage<AppPageProps>();
 
 const workspaces = computed(() => page.props.workspaces);
+const channels = computed(() => page.props.channels);
 </script>
 
 <template>
@@ -41,7 +43,16 @@ const workspaces = computed(() => page.props.workspaces);
                     workspaces.map((workspace) => {
                         return {
                             title: workspace.name,
-                            href: view(workspace.id).url,
+                            href: WorkspaceController.view(workspace.id).url,
+                        };
+                    })
+                "
+                :channels="
+                    channels.map((channel) => {
+                        return {
+                            title: channel.name,
+                            href: ChannelController.view(channel.id).url,
+                            parentName: channel.workspace,
                         };
                     })
                 "
