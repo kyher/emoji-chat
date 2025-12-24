@@ -35,17 +35,29 @@ const breadcrumbs: BreadcrumbItem[] = [
             class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
         >
             <h1 class="text-2xl">{{ workspace.name }}</h1>
-            <Form
-                class="flex w-75 flex-col gap-2"
-                :action="store()"
-                method="POST"
-                resetOnSuccess
-                :transform="(data) => ({ ...data, workspace_id: workspace.id })"
-            >
-                <Input id="name" type="text" name="name" placeholder="Name" />
-                <p v-if="errors?.name">{{ errors?.name }}</p>
-                <Button type="submit" class="cursor-pointer">Add</Button>
-            </Form>
+            <hr />
+            <Card class="w-100 p-4">
+                <h2 class="text-lg">Add a channel</h2>
+                <Form
+                    class="flex flex-col gap-2"
+                    :action="store()"
+                    method="POST"
+                    resetOnSuccess
+                    :transform="
+                        (data) => ({ ...data, workspace_id: workspace.id })
+                    "
+                >
+                    <Input
+                        id="name"
+                        type="text"
+                        name="name"
+                        placeholder="Name"
+                    />
+                    <p v-if="errors?.name">{{ errors?.name }}</p>
+                    <Button type="submit" class="cursor-pointer">Add</Button>
+                </Form>
+            </Card>
+
             <hr />
             <h2 class="text-xl">Channels</h2>
             <div class="grid grid-cols-3 gap-3">
