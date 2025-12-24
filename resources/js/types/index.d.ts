@@ -25,7 +25,6 @@ export type AppPageProps<
     quote: { message: string; author: string };
     auth: Auth;
     sidebarOpen: boolean;
-    workspaces: Workspace[];
     channels: Channel[];
 };
 
