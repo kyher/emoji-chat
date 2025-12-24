@@ -48,7 +48,6 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
-            'workspaces' => fn() => $request->user() ? WorkspaceResource::collection($request->user()->workspaces)->all() : null,
             'channels' => fn() => $request->user() ? ChannelResource::collection($request->user()->channels)->all() : null,
         ];
     }

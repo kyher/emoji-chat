@@ -46,6 +46,7 @@ class WorkspaceController extends Controller
         try {
             DB::transaction(function () use ($workspace) {
                 $workspace->users()->detach();
+                $workspace->channels()->delete();
                 $workspace->delete();
             });
         } catch (Exception $e) {

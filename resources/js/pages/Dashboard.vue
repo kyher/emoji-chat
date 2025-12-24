@@ -34,18 +34,26 @@ defineProps<{
             class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
         >
             <h1 class="text-2xl">Workspaces</h1>
-            <h2 class="text-xl">Add a workspace below</h2>
+            <hr />
+            <Card class="w-100 p-4">
+                <h2 class="text-lg">Add a workspace</h2>
 
-            <Form
-                class="flex w-75 flex-col gap-2"
-                :action="store()"
-                method="POST"
-                resetOnSuccess
-            >
-                <Input id="name" type="text" name="name" placeholder="Name" />
-                <p v-if="errors?.name">{{ errors?.name }}</p>
-                <Button type="submit" class="cursor-pointer">Add</Button>
-            </Form>
+                <Form
+                    class="flex flex-col gap-2"
+                    :action="store()"
+                    method="POST"
+                    resetOnSuccess
+                >
+                    <Input
+                        id="name"
+                        type="text"
+                        name="name"
+                        placeholder="Name"
+                    />
+                    <p v-if="errors?.name">{{ errors?.name }}</p>
+                    <Button type="submit" class="cursor-pointer">Add</Button>
+                </Form>
+            </Card>
 
             <hr />
             <h2 class="text-xl">Workspaces</h2>

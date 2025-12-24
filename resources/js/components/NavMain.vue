@@ -12,7 +12,6 @@ import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 
 defineProps<{
-    workspaces: NavItem[];
     channels: NavItem[];
 }>();
 
@@ -29,27 +28,7 @@ const page = usePage();
                     tooltip="Dashboard"
                 >
                     <Link :href="dashboard().url">
-                        <span>Dashboard</span>
-                    </Link>
-                </SidebarMenuButton>
-            </SidebarMenuItem>
-        </SidebarMenu>
-    </SidebarGroup>
-    <SidebarGroup class="px-2 py-0">
-        <SidebarGroupLabel>Workspaces</SidebarGroupLabel>
-        <SidebarMenu>
-            <SidebarMenuItem
-                v-for="workspace in workspaces"
-                :key="workspace.title"
-            >
-                <SidebarMenuButton
-                    as-child
-                    :is-active="urlIsActive(workspace.href, page.url)"
-                    :tooltip="workspace.title"
-                >
-                    <Link :href="workspace.href">
-                        <component :is="workspace.icon" />
-                        <span>{{ workspace.title }}</span>
+                        <span>Workspaces</span>
                     </Link>
                 </SidebarMenuButton>
             </SidebarMenuItem>
