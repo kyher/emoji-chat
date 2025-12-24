@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import ChannelController from '@/actions/App/Http/Controllers/ChannelController';
-import WorkspaceController from '@/actions/App/Http/Controllers/WorkspaceController';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import {
@@ -19,7 +18,6 @@ import { computed } from 'vue';
 import AppLogo from './AppLogo.vue';
 const page = usePage<AppPageProps>();
 
-const workspaces = computed(() => page.props.workspaces);
 const channels = computed(() => page.props.channels);
 </script>
 
@@ -39,14 +37,6 @@ const channels = computed(() => page.props.channels);
 
         <SidebarContent>
             <NavMain
-                :workspaces="
-                    workspaces.map((workspace) => {
-                        return {
-                            title: workspace.name,
-                            href: WorkspaceController.view(workspace.id).url,
-                        };
-                    })
-                "
                 :channels="
                     channels.map((channel) => {
                         return {
