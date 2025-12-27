@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\WorkspaceUserRole;
+use App\Http\Requests\AddWorkspaceUserRequest;
 use App\Models\User;
 use App\Models\Workspace;
+use Illuminate\Http\RedirectResponse;
 
 class WorkspaceUserController extends Controller
 {
-    public function destroy($workspaceId, $userId): \Illuminate\Http\RedirectResponse
+    public function destroy($workspaceId, $userId): RedirectResponse
     {
         $workspace = Workspace::findOrFail($workspaceId);
         $user = User::findOrFail($userId);
@@ -24,6 +27,23 @@ class WorkspaceUserController extends Controller
         }
 
         $workspace->users()->detach($user);
+        return redirect()->back();
+    }
+
+    public function add(AddWorkspaceUserRequest $request): RedirectResponse
+    {
+        $workspace = Workspace::findOrFail($request->workspace);
+        $user = User::where('email', $request->email)->first();
+        if (!$workspace || !$user) {
+            abort(404);
+        }
+
+        if ($workspace->users()->get()->contains($user->id)) {
+            abort(403, 'User already added to workspace.');
+        }
+
+        $workspace->users()->attach($user, ['role' => WorkspaceUserRole::Member]);
+
         return redirect()->back();
     }
 }

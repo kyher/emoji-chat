@@ -31,6 +31,7 @@ Route::prefix('workspace')->group(function () {
     Route::delete('/{workspace}/destroy', [WorkspaceController::class, 'destroy'])->name('workspace.destroy');
     Route::get('/{workspace}/view', [WorkspaceController::class, 'view'])->name('workspace.view');
     Route::delete('/{workspace}/{user}/destroy', [WorkspaceUserController::class, 'destroy'])->name('workspace.user.destroy');
+    Route::post('/{workspace}/user/add', [WorkspaceUserController::class, 'add'])->name('workspace.user.add');
 })->middleware(['auth', 'verified']);
 
 
