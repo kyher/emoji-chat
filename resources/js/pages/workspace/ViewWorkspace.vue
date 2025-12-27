@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import WorkspaceUserController from '@/actions/App/Http/Controllers/WorkspaceUserController';
-import Button from '@/components/ui/button/Button.vue';
-import Card from '@/components/ui/card/Card.vue';
-import Input from '@/components/ui/input/Input.vue';
+import AddChannelForm from '@/components/Workspace/AddChannelForm.vue';
+import AddUser from '@/components/Workspace/AddUser.vue';
+import ChannelList from '@/components/Workspace/ChannelList.vue';
+import UserList from '@/components/Workspace/UserList.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard } from '@/routes';
-import { destroy, store, view } from '@/routes/channel';
 import { Workspace, type BreadcrumbItem } from '@/types';
-import { Form, Head, Link } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 const { workspace } = defineProps<{
     workspace: Workspace;
     errors: {
-        name: string;
+        name?: string;
+        email?: string;
     };
 }>();
 
@@ -36,83 +36,14 @@ const breadcrumbs: BreadcrumbItem[] = [
         >
             <h1 class="text-2xl">{{ workspace.name }}</h1>
             <hr />
-            <Card class="w-100 p-4">
-                <h2 class="text-lg">Add a channel</h2>
-                <Form
-                    class="flex flex-col gap-2"
-                    :action="store()"
-                    method="POST"
-                    resetOnSuccess
-                    :transform="
-                        (data) => ({ ...data, workspace_id: workspace.id })
-                    "
-                >
-                    <Input
-                        id="name"
-                        type="text"
-                        name="name"
-                        placeholder="Name"
-                    />
-                    <p v-if="errors?.name">{{ errors?.name }}</p>
-                    <Button type="submit" class="cursor-pointer">Add</Button>
-                </Form>
-            </Card>
+            <AddChannelForm :workspace="workspace" />
 
             <hr />
             <h2 class="text-xl">Channels</h2>
-            <div class="grid grid-cols-3 gap-3">
-                <Card
-                    v-for="channel in workspace.channels"
-                    :key="channel.id"
-                    class="no-wrap overflow-hidden p-4 text-nowrap text-ellipsis"
-                >
-                    {{ channel.name }}
-                    <div class="flex gap-2">
-                        <Link
-                            :href="view(channel.id)"
-                            class="mt-2 w-25 w-fit cursor-pointer rounded bg-blue-500 p-2 text-white"
-                        >
-                            View
-                        </Link>
-                        <Form
-                            :action="destroy(channel.id)"
-                            method="DELETE"
-                            class="mt-2"
-                        >
-                            <button
-                                type="submit"
-                                class="cursor-pointer rounded bg-red-500 p-2 text-white"
-                            >
-                                Delete
-                            </button>
-                        </Form>
-                    </div>
-                </Card>
-            </div>
+            <ChannelList :workspace="workspace" />
             <h2 class="text-xl">Users</h2>
-            <ul>
-                <li v-for="value in workspace.users" :key="value.id">
-                    {{ value.name }} - {{ value.email }}
-                    <Form
-                        v-if="workspace.owner_id !== value.id"
-                        :action="
-                            WorkspaceUserController.destroy({
-                                workspace: workspace.id,
-                                user: value.id,
-                            })
-                        "
-                        method="DELETE"
-                        class="inline"
-                    >
-                        <button
-                            type="submit"
-                            class="ml-2 cursor-pointer rounded bg-red-500 p-1 text-white"
-                        >
-                            Remove
-                        </button>
-                    </Form>
-                </li>
-            </ul>
+            <UserList :workspace="workspace" />
+            <AddUser :workspace="workspace" />
         </div>
     </AppLayout>
 </template>
