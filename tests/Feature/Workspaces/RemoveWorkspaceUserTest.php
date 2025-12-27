@@ -36,7 +36,7 @@ class RemoveWorkspaceUserTest extends TestCase
         ]);
     }
 
-    public function test_workspace_user_cannot_by_a_non_admin()
+    public function test_workspace_user_cannot_be_removed_by_a_non_admin()
     {
         $workspace = WorkspaceFactory::new()->create();
 
