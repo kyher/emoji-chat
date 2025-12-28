@@ -88,7 +88,7 @@ function toggleEmojiPicker() {
                         </DialogHeader>
 
                         <ul>
-                            <li v-for="user in channel.users">
+                            <li v-for="user in channel.users" :key="user.id">
                                 {{ user.name }} - {{ user.email }}
                             </li>
                         </ul>
