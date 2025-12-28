@@ -47,17 +47,18 @@ export type Message = {
     created_at: string;
 };
 
+type ResourceUser = {
+    id: number;
+    name: string;
+    email: string;
+};
+
 export type Channel = {
     id: number;
     name: string;
     messages?: Message[];
     workspace: string;
-};
-
-type WorkspaceUser = {
-    id: number;
-    name: string;
-    email: string;
+    users: ResourceUser[];
 };
 
 export interface Workspace {
@@ -65,5 +66,5 @@ export interface Workspace {
     name: string;
     owner_id: number;
     channels?: Channel[];
-    users?: WorkspaceUser[];
+    users?: ResourceUser[];
 }
