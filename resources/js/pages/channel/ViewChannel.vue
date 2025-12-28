@@ -1,5 +1,13 @@
 <script setup lang="ts">
 import Message from '@/components/Message.vue';
+import Button from '@/components/ui/button/Button.vue';
+import {
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
+import Dialog from '@/components/ui/dialog/Dialog.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard } from '@/routes';
 import { store } from '@/routes/message';
@@ -66,7 +74,27 @@ function toggleEmojiPicker() {
         <div
             class="flex max-h-screen flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
         >
-            <h1 class="text-2xl">{{ channel.name }}</h1>
+            <div class="flex gap-5">
+                <h1 class="text-2xl">{{ channel.name }}</h1>
+                <Dialog>
+                    <DialogTrigger>
+                        <Button variant="ghost" class="cursor-pointer"
+                            >👤</Button
+                        >
+                    </DialogTrigger>
+                    <DialogContent>
+                        <DialogHeader class="space-y-3">
+                            <DialogTitle>Users</DialogTitle>
+                        </DialogHeader>
+
+                        <ul>
+                            <li v-for="user in channel.users" :key="user.id">
+                                {{ user.name }} - {{ user.email }}
+                            </li>
+                        </ul>
+                    </DialogContent>
+                </Dialog>
+            </div>
             <div class="flex h-1/10 items-center gap-4 rounded bg-gray-800 p-4">
                 <div>
                     <button
