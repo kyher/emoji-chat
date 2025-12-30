@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ChannelUserController from '@/actions/App/Http/Controllers/ChannelUserController';
 import Message from '@/components/Message.vue';
 import Button from '@/components/ui/button/Button.vue';
 import {
@@ -12,8 +13,8 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard } from '@/routes';
 import { store } from '@/routes/message';
 import { view } from '@/routes/workspace';
-import { Channel, Workspace, type BreadcrumbItem } from '@/types';
-import { Head, router, useForm } from '@inertiajs/vue3';
+import { Channel, ResourceUser, Workspace, type BreadcrumbItem } from '@/types';
+import { Form, Head, router, useForm } from '@inertiajs/vue3';
 import { useEcho } from '@laravel/echo-vue';
 import { ref } from 'vue';
 import EmojiPicker from 'vue3-emoji-picker';
@@ -21,6 +22,7 @@ import 'vue3-emoji-picker/css';
 const { workspace, channel } = defineProps<{
     workspace: Workspace;
     channel: Channel;
+    availableUsers: ResourceUser[];
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -86,12 +88,51 @@ function toggleEmojiPicker() {
                         <DialogHeader class="space-y-3">
                             <DialogTitle>Users</DialogTitle>
                         </DialogHeader>
-
+                        <h2 class="text-lg font-medium">Channel Users</h2>
                         <ul>
                             <li v-for="user in channel.users" :key="user.id">
                                 {{ user.name }} - {{ user.email }}
                             </li>
                         </ul>
+                        <div v-if="availableUsers.length > 0">
+                            <h2 class="text-lg font-medium">Available Users</h2>
+
+                            <ul>
+                                <li
+                                    v-for="availableUser in availableUsers"
+                                    :key="availableUser.id"
+                                >
+                                    {{ availableUser.name }} -
+                                    {{ availableUser.email }}
+                                    <Form
+                                        :action="
+                                            ChannelUserController.add(
+                                                channel.id,
+                                            )
+                                        "
+                                        method="post"
+                                        :transform="
+                                            (data) => ({
+                                                ...data,
+                                                channel: channel.id,
+                                            })
+                                        "
+                                        class="ml-2 inline-block"
+                                    >
+                                        <input
+                                            type="hidden"
+                                            name="user_id"
+                                            :value="availableUser.id"
+                                        />
+                                        <Button
+                                            type="submit"
+                                            class="cursor-pointer"
+                                            >Add</Button
+                                        >
+                                    </Form>
+                                </li>
+                            </ul>
+                        </div>
                     </DialogContent>
                 </Dialog>
             </div>
