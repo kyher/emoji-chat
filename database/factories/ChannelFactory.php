@@ -21,6 +21,7 @@ class ChannelFactory extends Factory
         return [
             'name' => $this->faker->text(10),
             'owner_id' => User::factory(),
+            'workspace_id' => WorkspaceFactory::new(),
         ];
     }
 

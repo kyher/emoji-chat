@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RemoveChannelRequest;
 use App\Http\Requests\StoreChannelRequest;
+use App\Http\Resources\UserResource;
 use App\Models\Channel;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -57,9 +57,14 @@ class ChannelController extends Controller
             return redirect()->back()->withErrors('You do not have permission to view this channel');
         }
 
+        $availableUsers = $channel->workspace->users->filter(function ($user) use ($channel) {
+            return !$channel->users->contains($user);
+        });
+
         return inertia('channel/ViewChannel', [
             'channel' => $channel->load(['messages', 'users'])->toResource(),
-            'workspace' => $channel->workspace,
+            'workspace' => $channel->workspace->toResource(),
+            'availableUsers' => UserResource::collection($availableUsers)->resolve()
         ]);
     }
 }

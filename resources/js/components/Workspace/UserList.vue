@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import WorkspaceUserController from '@/actions/App/Http/Controllers/WorkspaceUserController';
 import { Workspace } from '@/types';
+import { Form } from '@inertiajs/vue3';
 
 defineProps<{
     workspace: Workspace;

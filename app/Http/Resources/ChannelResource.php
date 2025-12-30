@@ -20,7 +20,7 @@ class ChannelResource extends JsonResource
             'name' => $this->name,
             'messages' => MessageResource::collection($this->whenLoaded('messages')),
             'workspace' => $this->workspace->name,
-            'users' => UserResource::collection($this->whenLoaded('users'))
+            'users' => UserResource::collection($this->whenLoaded('users')),
         ];
     }
 }
