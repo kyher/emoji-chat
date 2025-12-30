@@ -26,6 +26,7 @@ class WorkspaceUserController extends Controller
             abort(403, 'Cannot remove the owner from the workspace.');
         }
 
+        $workspace->channels()->get()->map(fn($channel) => $channel->users()->detach($user));
         $workspace->users()->detach($user);
         return redirect()->back();
     }
