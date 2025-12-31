@@ -100,13 +100,6 @@ function toggleEmojiPicker() {
                                         })
                                     "
                                     method="delete"
-                                    :transform="
-                                        (data) => ({
-                                            ...data,
-                                            channel: channel.id,
-                                            user: user.id,
-                                        })
-                                    "
                                     class="ml-2 inline-block"
                                     v-if="user.id !== channel.owner_id"
                                 >
