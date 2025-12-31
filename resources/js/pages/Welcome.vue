@@ -55,7 +55,8 @@ withDefaults(
                 class="flex w-full max-w-[335px] flex-col-reverse overflow-hidden rounded-lg lg:max-w-4xl lg:flex-row"
             >
                 <h1 class="text-3xl text-white">
-                    👋 Welcome to EmojiChat. Please login or register to continue.
+                    👋 Welcome to EmojiChat. Please login or register to
+                    continue.
                 </h1>
             </main>
         </div>
