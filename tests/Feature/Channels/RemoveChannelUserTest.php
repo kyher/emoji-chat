@@ -11,7 +11,7 @@ class RemoveChannelUserTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_remove_user_from_channel()
+    public function test_user_can_be_removed_from_channel()
     {
         $channel = Channel::factory()->create();
         $user = User::factory()->create();
@@ -26,7 +26,7 @@ class RemoveChannelUserTest extends TestCase
         ]);
     }
 
-    public function test_remove_user_from_channel_as_non_owner()
+    public function test_non_member_user_cannot_be_removed_from_channel()
     {
         $channel = Channel::factory()->create();
         $user = User::factory()->create();
@@ -37,7 +37,7 @@ class RemoveChannelUserTest extends TestCase
         $response->assertStatus(403);
     }
 
-    public function test_removal_of_owner_from_channel()
+    public function test_owner_cannot_be_removed_from_channel()
     {
         $channel = Channel::factory()->create();
         $owner = $channel->owner;
@@ -47,7 +47,7 @@ class RemoveChannelUserTest extends TestCase
         $response->assertStatus(403);
     }
 
-    public function test_remove_non_member_user_from_channel()
+    public function test_user_cannot_be_removed_from_channel_by_non_owner()
     {
         $channel = Channel::factory()->create();
         $nonMember = User::factory()->create();
