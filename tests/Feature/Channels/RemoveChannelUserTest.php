@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Feature\Channels;
+
 use App\Models\Channel;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,5 +45,15 @@ class RemoveChannelUserTest extends TestCase
         $response = $this->actingAs($owner)->followingRedirects()->delete(route('channel.user.destroy', [$channel, $owner]));
 
         $response->assertStatus(403);
+    }
+
+    public function test_remove_non_member_user_from_channel()
+    {
+        $channel = Channel::factory()->create();
+        $nonMember = User::factory()->create();
+
+        $response = $this->actingAs($channel->owner)->followingRedirects()->delete(route('channel.user.destroy', [$channel, $nonMember]));
+
+        $response->assertStatus(404);
     }
 }
