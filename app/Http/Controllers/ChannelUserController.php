@@ -42,11 +42,8 @@ class ChannelUserController extends Controller
         return redirect()->back();
     }
 
-    public function destroy($channelId, $userId): RedirectResponse
+    public function destroy(Channel $channel, User $user): RedirectResponse
     {
-        $channel = Channel::findOrFail($channelId);
-        $user = User::findOrFail($userId);
-
         if ($channel->owner_id !== Auth::id()) {
             abort(403, 'Only the channel owner can remove users.');
         }
@@ -55,14 +52,12 @@ class ChannelUserController extends Controller
             abort(403, 'Cannot remove the owner from the channel.');
         }
 
-        if ($channel->users->doesntContain($user)) {
+        if (!$channel->users()->where('user_id', $user->id)->exists()) {
             abort(404, 'User is not a member of this channel.');
         }
 
         try {
-            DB::transaction(function () use ($channel, $user) {
-                $channel->users()->detach($user);
-            });
+            $channel->users()->detach($user);
         } catch (Exception $e) {
             Log::error($e);
             return redirect()->back()->withErrors('Could not remove user from channel');
