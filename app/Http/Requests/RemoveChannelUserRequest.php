@@ -23,15 +23,24 @@ class RemoveChannelUserRequest extends FormRequest
 
         // Cannot remove the owner from the channel
         if ($user && $channel->owner_id === $user->id) {
-            abort(403, 'Cannot remove the owner from the channel.');
+            return false;
         }
+
+        return true;
+    }
+
+    /**
+     * Configure the validator instance.
+     */
+    protected function prepareForValidation(): void
+    {
+        $channel = $this->route('channel');
+        $user = $this->route('user');
 
         // User must be a member of the channel
         if ($user && !$channel->users()->where('user_id', $user->id)->exists()) {
             abort(404, 'User is not a member of this channel.');
         }
-
-        return true;
     }
 
     /**
