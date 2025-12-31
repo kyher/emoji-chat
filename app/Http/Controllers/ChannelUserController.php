@@ -7,6 +7,7 @@ use App\Models\Channel;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -38,6 +39,26 @@ class ChannelUserController extends Controller
             return redirect()->back()->withErrors('Could not add user to channel');
         }
 
+        return redirect()->back();
+    }
+
+    public function destroy($channelId, $userId): RedirectResponse
+    {
+        $channel = Channel::findOrFail($channelId);
+        $user = User::findOrFail($userId);
+        if (!$channel || !$user) {
+            abort(404);
+        }
+
+        if ($channel->owner_id !== Auth::id()) {
+            abort(403, 'Only the channel owner can remove users.');
+        }
+
+        if ($channel->owner_id === $user->id) {
+            abort(403, 'Cannot remove the owner from the channel.');
+        }
+
+        $channel->users()->detach($user);
         return redirect()->back();
     }
 }

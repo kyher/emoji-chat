@@ -24,6 +24,7 @@ Route::prefix('workspace')->group(function () {
         Route::delete('/{channel}/destroy', [ChannelController::class, 'destroy'])->name('channel.destroy');
         Route::get('/{channel}/view', [ChannelController::class, 'view'])->name('channel.view');
         Route::post('/{channel}/user/add', [ChannelUserController::class, 'add'])->name('channel.user.add');
+        Route::delete('/{channel}/{user}/destroy', [ChannelUserController::class, 'destroy'])->name('channel.user.destroy');
 
         Route::prefix('message')->group(function () {
             Route::post('/store', [MessageController::class, 'store'])->name('message.store');

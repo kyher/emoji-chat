@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Channel extends Model
 {
+    use HasFactory;
     protected $fillable = ['name', 'workspace_id', 'owner_id'];
 
     public function workspace()
@@ -21,5 +23,10 @@ class Channel extends Model
     public function messages()
     {
         return $this->hasMany(Message::class)->orderBy('created_at', 'desc');
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
     }
 }

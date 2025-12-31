@@ -92,6 +92,28 @@ function toggleEmojiPicker() {
                         <ul>
                             <li v-for="user in channel.users" :key="user.id">
                                 {{ user.name }} - {{ user.email }}
+                                <Form
+                                    :action="
+                                        ChannelUserController.destroy({
+                                            channel: channel.id,
+                                            user: user.id,
+                                        })
+                                    "
+                                    method="delete"
+                                    :transform="
+                                        (data) => ({
+                                            ...data,
+                                            channel: channel.id,
+                                            user: user.id,
+                                        })
+                                    "
+                                    class="ml-2 inline-block"
+                                    v-if="user.id !== channel.owner_id"
+                                >
+                                    <Button type="submit" class="cursor-pointer"
+                                        >Remove</Button
+                                    >
+                                </Form>
                             </li>
                         </ul>
                         <div v-if="availableUsers.length > 0">
