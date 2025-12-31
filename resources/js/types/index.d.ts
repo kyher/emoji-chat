@@ -56,6 +56,7 @@ type ResourceUser = {
 export type Channel = {
     id: number;
     name: string;
+    owner_id: number;
     messages?: Message[];
     workspace: string;
     users: ResourceUser[];
