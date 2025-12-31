@@ -46,9 +46,6 @@ class ChannelUserController extends Controller
     {
         $channel = Channel::findOrFail($channelId);
         $user = User::findOrFail($userId);
-        if (!$channel || !$user) {
-            abort(404);
-        }
 
         if ($channel->owner_id !== Auth::id()) {
             abort(403, 'Only the channel owner can remove users.');
@@ -58,7 +55,18 @@ class ChannelUserController extends Controller
             abort(403, 'Cannot remove the owner from the channel.');
         }
 
-        $channel->users()->detach($user);
+        if ($channel->users->doesntContain($user)) {
+            abort(404, 'User is not a member of this channel.');
+        }
+
+        try {
+            DB::transaction(function () use ($channel, $user) {
+                $channel->users()->detach($user);
+            });
+        } catch (Exception $e) {
+            Log::error($e);
+            return redirect()->back()->withErrors('Could not remove user from channel');
+        }
         return redirect()->back();
     }
 }
