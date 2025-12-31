@@ -7,18 +7,17 @@ use App\Http\Requests\AddWorkspaceUserRequest;
 use App\Models\User;
 use App\Models\Workspace;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class WorkspaceUserController extends Controller
 {
-    public function destroy($workspaceId, $userId): RedirectResponse
+    public function destroy(Workspace $workspace, User $user): RedirectResponse
     {
-        $workspace = Workspace::findOrFail($workspaceId);
-        $user = User::findOrFail($userId);
-        if (!$workspace || !$user) {
+        if (!$workspace->users()->where('user_id', $user->id)->exists()) {
             abort(404);
         }
 
-        if (!$workspace->administrators->pluck('id')->contains(auth()->id())) {
+        if (!$workspace->administrators->pluck('id')->contains(Auth::id())) {
             abort(403, 'Only workspace administrators can remove users.');
         }
 
