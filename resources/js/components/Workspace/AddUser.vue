@@ -26,7 +26,11 @@ defineProps<{
         >
             <Input type="text" placeholder="User's email" name="email" />
             <p v-if="errors?.email">{{ errors?.email }}</p>
-            <Button type="submit" class="cursor-pointer">Submit</Button>
+            <Button
+                type="submit"
+                class="cursor-pointer bg-blue-500 p-2 text-white hover:bg-blue-600"
+                >Submit</Button
+            >
         </Form>
     </Card>
 </template>

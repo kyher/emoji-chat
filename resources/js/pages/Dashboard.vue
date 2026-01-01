@@ -51,7 +51,11 @@ defineProps<{
                         placeholder="Name"
                     />
                     <p v-if="errors?.name">{{ errors?.name }}</p>
-                    <Button type="submit" class="cursor-pointer">Add</Button>
+                    <Button
+                        type="submit"
+                        class="cursor-pointer bg-blue-500 p-2 text-white hover:bg-blue-600"
+                        >Add</Button
+                    >
                 </Form>
             </Card>
 
