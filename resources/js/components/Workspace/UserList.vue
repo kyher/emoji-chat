@@ -5,6 +5,7 @@ import { Form } from '@inertiajs/vue3';
 
 defineProps<{
     workspace: Workspace;
+    canRemove: boolean;
 }>();
 </script>
 <template>
@@ -12,7 +13,7 @@ defineProps<{
         <li v-for="value in workspace.users" :key="value.id">
             {{ value.name }} - {{ value.email }}
             <Form
-                v-if="workspace.owner_id !== value.id"
+                v-if="workspace.owner_id !== value.id && canRemove"
                 :action="
                     WorkspaceUserController.destroy({
                         workspace: workspace.id,
