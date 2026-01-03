@@ -6,7 +6,8 @@ import UserList from '@/components/Workspace/UserList.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard } from '@/routes';
 import { Workspace, type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 const { workspace } = defineProps<{
     workspace: Workspace;
     errors: {
@@ -25,6 +26,14 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '',
     },
 ];
+const page = usePage();
+const auth = computed(() => page.props.auth);
+const isWorkspaceAdmin = computed(() => {
+    return (
+        workspace.users?.find((user) => user.id === auth.value.user.id)?.pivot
+            .role === 'administrator'
+    );
+});
 </script>
 
 <template>
@@ -36,14 +45,18 @@ const breadcrumbs: BreadcrumbItem[] = [
         >
             <h1 class="text-2xl">{{ workspace.name }}</h1>
             <hr />
-            <AddChannelForm :workspace="workspace" />
 
-            <hr />
+            <div v-if="isWorkspaceAdmin">
+                <AddChannelForm :workspace="workspace" />
+
+                <hr />
+            </div>
+
             <h2 class="text-xl">Channels</h2>
             <ChannelList :workspace="workspace" />
             <h2 class="text-xl">Users</h2>
-            <UserList :workspace="workspace" />
-            <AddUser :workspace="workspace" />
+            <UserList :workspace="workspace" :canRemove="isWorkspaceAdmin" />
+            <AddUser :workspace="workspace" v-if="isWorkspaceAdmin" />
         </div>
     </AppLayout>
 </template>

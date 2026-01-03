@@ -47,10 +47,15 @@ export type Message = {
     created_at: string;
 };
 
+type Role = 'administrator' | 'user';
+
 type ResourceUser = {
     id: number;
     name: string;
     email: string;
+    pivot: {
+        role: Role;
+    };
 };
 
 export type Channel = {
