@@ -14,9 +14,9 @@ import { dashboard } from '@/routes';
 import { store } from '@/routes/message';
 import { view } from '@/routes/workspace';
 import { Channel, ResourceUser, Workspace, type BreadcrumbItem } from '@/types';
-import { Form, Head, router, useForm } from '@inertiajs/vue3';
+import { Form, Head, router, useForm, usePage } from '@inertiajs/vue3';
 import { useEcho } from '@laravel/echo-vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import EmojiPicker from 'vue3-emoji-picker';
 import 'vue3-emoji-picker/css';
 const { workspace, channel } = defineProps<{
@@ -24,6 +24,9 @@ const { workspace, channel } = defineProps<{
     channel: Channel;
     availableUsers: ResourceUser[];
 }>();
+
+const page = usePage();
+const auth = computed(() => page.props.auth);
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -101,7 +104,10 @@ function toggleEmojiPicker() {
                                     "
                                     method="delete"
                                     class="ml-2 inline-block"
-                                    v-if="user.id !== channel.owner_id"
+                                    v-if="
+                                        user.id !== channel.owner_id &&
+                                        auth.user.id === channel.owner_id
+                                    "
                                 >
                                     <Button type="submit" class="cursor-pointer"
                                         >Remove</Button
