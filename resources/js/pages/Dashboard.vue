@@ -33,8 +33,6 @@ defineProps<{
         <div
             class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
         >
-            <h1 class="text-2xl">Workspaces</h1>
-            <hr />
             <Card class="w-100 p-4">
                 <h2 class="text-lg">Add a workspace</h2>
 
@@ -59,7 +57,6 @@ defineProps<{
                 </Form>
             </Card>
 
-            <hr />
             <h2 class="text-xl">Workspaces</h2>
 
             <div class="grid grid-cols-3 gap-3">
