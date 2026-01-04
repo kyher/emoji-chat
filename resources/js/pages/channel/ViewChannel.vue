@@ -157,7 +157,9 @@ function toggleEmojiPicker() {
                     </DialogContent>
                 </Dialog>
             </div>
-            <div class="flex h-1/10 items-center gap-4 rounded bg-gray-800 p-4">
+            <div
+                class="flex h-1/10 items-center gap-4 rounded bg-gray-800/50 p-4"
+            >
                 <div>
                     <button
                         @click="toggleEmojiPicker"
@@ -178,7 +180,7 @@ function toggleEmojiPicker() {
                 </div>
             </div>
             <div
-                class="flex h-7/10 flex-col-reverse overflow-auto rounded bg-gray-800 p-4"
+                class="flex h-7/10 flex-col-reverse overflow-auto rounded bg-gray-800/50 p-4"
             >
                 <Message
                     v-for="message in channel.messages"
