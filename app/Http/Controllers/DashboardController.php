@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
     public function __invoke()
     {
-        $workspaces = Auth::user()->workspaces()->get();
+        $workspaces = Auth::user()->workspaces()->with('users')->get();
         return Inertia::render('Dashboard', [
             'workspaces' =>  WorkspaceResource::collection($workspaces)->all()
         ]);

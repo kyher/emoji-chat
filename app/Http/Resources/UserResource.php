@@ -19,9 +19,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'role' => $this->whenPivotLoaded('workspace_user', function () {
-                return $this->pivot->role;
-            }),
+            'role' => $this->pivot->role,
         ];
     }
 }

@@ -53,9 +53,7 @@ type ResourceUser = {
     id: number;
     name: string;
     email: string;
-    pivot: {
-        role: Role;
-    };
+    role: string;
 };
 
 export type Channel = {

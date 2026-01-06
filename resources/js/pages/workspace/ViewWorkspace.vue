@@ -30,8 +30,8 @@ const page = usePage();
 const auth = computed(() => page.props.auth);
 const isWorkspaceAdmin = computed(() => {
     return (
-        workspace.users?.find((user) => user.id === auth.value.user.id)?.pivot
-            .role === 'administrator'
+        workspace.users?.find((user) => user.id === auth.value.user.id)
+            ?.role === 'administrator'
     );
 });
 </script>

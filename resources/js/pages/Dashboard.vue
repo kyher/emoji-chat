@@ -8,9 +8,10 @@ import Card from '@/components/ui/card/Card.vue';
 import Input from '@/components/ui/input/Input.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard } from '@/routes';
-import { view } from '@/routes/workspace';
+import { edit, view } from '@/routes/workspace';
 import { Workspace, type BreadcrumbItem } from '@/types';
-import { Form, Head, Link } from '@inertiajs/vue3';
+import { Form, Head, Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -24,6 +25,8 @@ defineProps<{
     };
     workspaces: Workspace[];
 }>();
+const page = usePage();
+const auth = computed(() => page.props.auth);
 </script>
 
 <template>
@@ -73,7 +76,20 @@ defineProps<{
                         >
                             View
                         </Link>
+                        {{ console.log(workspace.users) }}
+                        <Link
+                            :href="edit(workspace.id)"
+                            class="mt-2 w-25 w-fit cursor-pointer rounded bg-yellow-500 p-2 text-white"
+                            v-if="
+                                workspace.users?.find(
+                                    (user) => user.id === auth.user.id,
+                                )?.role === 'administrator'
+                            "
+                        >
+                            Edit
+                        </Link>
                         <Form
+                            v-if="workspace.owner_id === auth.user.id"
                             :action="destroy(workspace.id)"
                             method="DELETE"
                             class="mt-2"

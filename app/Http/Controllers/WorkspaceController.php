@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Enum\WorkspaceUserRole;
 use App\Http\Requests\StoreWorkspaceRequest;
+use App\Http\Resources\WorkspaceResource;
 use App\Models\Workspace;
 use Exception;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -64,7 +66,33 @@ class WorkspaceController extends Controller
         }
 
         return Inertia::render('workspace/ViewWorkspace', [
-            'workspace' => $workspace->load(['channels', 'users']),
+            'workspace' => WorkspaceResource::make($workspace->load(['channels', 'users'])),
         ]);
+    }
+
+    public function edit(Workspace $workspace): InertiaResponse|RedirectResponse
+    {
+        if (!$workspace->administrators()->get()->contains(Auth::id())) {
+            return redirect(route('dashboard'))->withErrors('Could not access workspace');
+        }
+
+        return Inertia::render('workspace/EditWorkspace', [
+            'workspace' => WorkspaceResource::make($workspace->load(['channels', 'users'])),
+        ]);
+    }
+
+    public function editStore(Workspace $workspace, Request $request): RedirectResponse
+    {
+        if (!$workspace->administrators()->get()->contains(Auth::id())) {
+            return redirect(route('dashboard'))->withErrors('Could not access workspace');
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $workspace->update($request->only('name'));
+
+        return redirect(route('dashboard'));
     }
 }
