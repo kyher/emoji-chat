@@ -33,6 +33,8 @@ Route::prefix('workspace')->group(function () {
     Route::post('/store', [WorkspaceController::class, 'store'])->name('workspace.store');
     Route::delete('/{workspace}/destroy', [WorkspaceController::class, 'destroy'])->name('workspace.destroy');
     Route::get('/{workspace}/view', [WorkspaceController::class, 'view'])->name('workspace.view');
+    Route::get('/{workspace}/edit', [WorkspaceController::class, 'edit'])->name('workspace.edit');
+    Route::post('/{workspace}/edit', [WorkspaceController::class, 'editStore'])->name('workspace.edit.store');
     Route::delete('/{workspace}/{user}/destroy', [WorkspaceUserController::class, 'destroy'])->name('workspace.user.destroy');
     Route::post('/{workspace}/user/add', [WorkspaceUserController::class, 'add'])->name('workspace.user.add');
 })->middleware(['auth', 'verified']);
