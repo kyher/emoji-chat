@@ -84,7 +84,7 @@ class WorkspaceController extends Controller
     public function editStore(Workspace $workspace, Request $request): RedirectResponse
     {
         if (!$workspace->administrators()->get()->contains(Auth::id())) {
-            return redirect(route('dashboard'))->withErrors('Could not access workspace');
+            return redirect(route('dashboard'))->withErrors('Could not edit workspace');
         }
 
         $request->validate([
