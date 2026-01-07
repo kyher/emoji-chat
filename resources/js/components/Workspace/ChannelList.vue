@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { destroy, view } from '@/routes/channel';
+import { destroy, edit, view } from '@/routes/channel';
 import { Workspace } from '@/types';
-import { Form, Link } from '@inertiajs/vue3';
+import { Form, Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import Card from '../ui/card/Card.vue';
 
 defineProps<{
     workspace: Workspace;
 }>();
+const page = usePage();
+const auth = computed(() => page.props.auth);
 </script>
 
 <template>
@@ -23,6 +26,13 @@ defineProps<{
                     class="mt-2 w-25 w-fit cursor-pointer rounded bg-blue-500 p-2 text-white"
                 >
                     View
+                </Link>
+                <Link
+                    :href="edit(channel.id)"
+                    class="mt-2 w-25 w-fit cursor-pointer rounded bg-yellow-500 p-2 text-white"
+                    v-if="channel.owner_id === auth.user.id"
+                >
+                    Edit
                 </Link>
                 <Form
                     :action="destroy(channel.id)"
