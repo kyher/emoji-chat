@@ -76,7 +76,6 @@ const auth = computed(() => page.props.auth);
                         >
                             View
                         </Link>
-                        {{ console.log(workspace.users) }}
                         <Link
                             :href="edit(workspace.id)"
                             class="mt-2 w-25 w-fit cursor-pointer rounded bg-yellow-500 p-2 text-white"
