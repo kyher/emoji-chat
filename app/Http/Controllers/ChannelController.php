@@ -67,4 +67,31 @@ class ChannelController extends Controller
             'availableUsers' => UserResource::collection($availableUsers)->resolve()
         ]);
     }
+
+    public function edit(Channel $channel)
+    {
+        if (Auth::id() !== $channel->owner_id) {
+            return redirect()->back()->withErrors('You do not have permission to edit this channel');
+        }
+
+        return inertia('channel/EditChannel', [
+            'channel' => $channel->toResource(),
+            'workspace' => $channel->workspace->toResource(),
+        ]);
+    }
+
+    public function editStore(Channel $channel)
+    {
+        if (Auth::id() !== $channel->owner_id) {
+            return redirect()->back()->withErrors('You do not have permission to edit this channel');
+        }
+
+        $data = request()->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $channel->update($data);
+
+        return redirect(route('workspace.view', $channel->workspace_id));
+    }
 }

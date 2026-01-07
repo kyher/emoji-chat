@@ -23,6 +23,8 @@ Route::prefix('workspace')->group(function () {
         Route::post('/store', [ChannelController::class, 'store'])->name('channel.store');
         Route::delete('/{channel}/destroy', [ChannelController::class, 'destroy'])->name('channel.destroy');
         Route::get('/{channel}/view', [ChannelController::class, 'view'])->name('channel.view');
+        Route::get('/{channel}/edit', [ChannelController::class, 'edit'])->name('channel.edit');
+        Route::post('/{channel}/edit', [ChannelController::class, 'editStore'])->name('channel.edit.store');
         Route::post('/{channel}/user/add', [ChannelUserController::class, 'add'])->name('channel.user.add');
         Route::delete('/{channel}/user/{user}/destroy', [ChannelUserController::class, 'destroy'])->name('channel.user.destroy');
 
