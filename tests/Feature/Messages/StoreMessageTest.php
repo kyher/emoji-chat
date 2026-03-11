@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Channels;
+namespace Tests\Feature\Messages;
 
 use App\Models\Channel;
 use App\Models\User;
@@ -10,7 +10,6 @@ use Database\Factories\WorkspaceFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Inertia\Testing\AssertableInertia as Assert;
 
 class StoreMessageTest extends TestCase
 {
